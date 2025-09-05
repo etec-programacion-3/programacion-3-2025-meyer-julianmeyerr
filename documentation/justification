@@ -1,0 +1,5 @@
+Product: referencia a User (sellerId) para saber que usuario es el vendedor del producto
+
+Conversation: en participants guarda un array que referencia a todos los participantes de la conversacion para saber que usuarios estar interactuando
+
+Message: referencias a Conversation y User para mantener escalabilidad y saber quien envió el mensaje

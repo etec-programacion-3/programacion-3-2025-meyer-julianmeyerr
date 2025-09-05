@@ -1,0 +1,30 @@
+[{
+  "_id": {
+    "$oid": "68bafc0dd07c5e087793a0c1"
+  },
+  "conversationId": {
+    "$oid": "68bafb6fd07c5e087793a0bb"
+  },
+  "authorId": {
+    "$oid": "68baf5bfd07c5e087793a098"
+  },
+  "content": "Cuanto sale?",
+  "createdAt": {
+    "$date": "2025-09-05T15:30:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68bafcd2d07c5e087793a0cf"
+  },
+  "conversationId": {
+    "$oid": "68bafb6fd07c5e087793a0bb"
+  },
+  "authorId": {
+    "$oid": "68baf3f9d07c5e087793a097"
+  },
+  "content": "está a $200000",
+  "createdAt": {
+    "$date": "2025-09-05T15:30:00.000Z"
+  }
+}]
