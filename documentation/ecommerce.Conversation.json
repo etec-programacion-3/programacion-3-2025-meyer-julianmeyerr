@@ -1,0 +1,13 @@
+[{
+  "_id": {
+    "$oid": "68bafb6fd07c5e087793a0bb"
+  },
+  "participants": [
+    {
+      "$oid": "68baf3f9d07c5e087793a097"
+    },
+    {
+      "$oid": "68baf5bfd07c5e087793a098"
+    }
+  ]
+}]

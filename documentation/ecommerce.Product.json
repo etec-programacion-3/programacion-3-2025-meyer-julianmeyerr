@@ -1,0 +1,32 @@
+[{
+  "_id": {
+    "$oid": "68baf95ed07c5e087793a0a0"
+  },
+  "name": "bicileta",
+  "description": "bicicleta Venzo rodado 26",
+  "price": 200000,
+  "stock": 1,
+  "new": false,
+  "sellerId": {
+    "$oid": "68baf3f9d07c5e087793a097"
+  },
+  "createdAt": {
+    "$date": "2025-09-05T15:30:00.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68bafb24d07c5e087793a0b1"
+  },
+  "name": "auriculares",
+  "description": "auriculares razer con microfono",
+  "price": 50000,
+  "stock": 12,
+  "new": true,
+  "sellerId": {
+    "$oid": "68baf5bfd07c5e087793a098"
+  },
+  "createdAt": {
+    "$date": "2025-09-05T18:30:00.000Z"
+  }
+}]
