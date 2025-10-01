@@ -1,20 +1,25 @@
-const express =require( 'express');
-const dotenv =require('dotenv');
-const connectDB =require ('./database.js');
+import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+
+import userRoutes from './routes/userRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import conversationRoutes from './routes/conversationRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
+
+const app = express();
+connectDB();
 
 dotenv.config();
 
-connectDB();
-const app = express();
-
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('API funcionando correctamente');
-});
+app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/conversations', conversationRoutes);
+app.use('/api/messages', messageRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+export default app;
