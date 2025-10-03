@@ -11,3 +11,22 @@ Content-Type: application/json
 
 ### Get all users
 GET http://localhost:4000/api/products
+
+### Register user
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+    "email": "meyer@ejemplo.com",
+    "password": "123456",
+    "name": "Julian Meyer"
+}
+
+### Login user
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "meyer@ejemplo.com",
+    "password": "123456"
+}
