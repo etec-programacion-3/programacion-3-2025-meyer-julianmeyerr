@@ -21,7 +21,7 @@ export const getUserId = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error('Usuario no encontrado');
   }
-  res.json(usuario);
+  res.json(user);
 });
 
 // Update user
@@ -36,11 +36,10 @@ export const updateUser = asyncHandler(async (req, res) => {
 
 // Eliminar usuario
 export const deleteUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findByIdAndDelete(req.params.id);
   if (!user) {
     res.status(404);
     throw new Error('Usuario no encontrado');
   }
-  await user.remove();
   res.json({ message: 'Usuario eliminado' });
 });
