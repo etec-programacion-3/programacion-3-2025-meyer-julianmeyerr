@@ -36,11 +36,10 @@ export const updateMessage = asyncHandler(async (req, res) => {
 
 // Delete message
 export const deleteMessage = asyncHandler(async (req, res) => {
-  const message = await Message.findById(req.params.id);
+  const message = await Message.findByIdAndDelete(req.params.id);
   if (!message) {
     res.status(404);
     throw new Error('Mensaje no encontrado');
   }
-  await message.remove();
   res.json({ message: 'Mensaje eliminado' });
 });

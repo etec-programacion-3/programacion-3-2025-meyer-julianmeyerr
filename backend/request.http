@@ -1,16 +1,9 @@
-### Create user
-POST http://localhost:4000/api/products
-Content-Type: application/json  
-
-{
-    "email": "ejemplo2@mail.com",
-    "passwordHash": "123456",
-    "name": "Julian Meyer"
-
-    }
-
 ### Get all users
-GET http://localhost:4000/api/products
+GET http://localhost:4000/api/users
+
+### Get user by ID
+DELETE http://localhost:4000/api/users/68dd4cdf3794701c364d8c09
+
 
 ### Register user
 POST http://localhost:4000/api/auth/register
@@ -30,3 +23,7 @@ Content-Type: application/json
     "email": "meyer@ejemplo.com",
     "password": "123456"
 }
+
+### Get current user profile
+GET http://localhost:4000/api/profile/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGZlMGI5YmEyYWFhYTJlMTU3YTM2NCIsImlhdCI6MTc1OTkzNTkzNCwiZXhwIjoxNzYwMDIyMzM0fQ.k588OkE1O79C8Wmic7D6w2Z_Xrg-cBS0KB9umD5Oaro
