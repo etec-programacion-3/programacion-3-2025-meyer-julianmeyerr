@@ -1,19 +1,4 @@
-### Get all users
-GET http://localhost:4000/api/users
-
-### Get user by ID
-DELETE http://localhost:4000/api/users/68dd4cdf3794701c364d8c09
-
-
-### Register user
-POST http://localhost:4000/api/auth/register
-Content-Type: application/json
-
-{
-    "email": "meyer@ejemplo.com",
-    "password": "123456",
-    "name": "Julian Meyer"
-}
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGZlMGI5YmEyYWFhYTJlMTU3YTM2NCIsImlhdCI6MTc2MTE0NjI4NCwiZXhwIjoxNzYxMjMyNjg0fQ.DJLuFshP8YcDuoiSqIqQ-Q0g106-BUAYXt_nmixMgdg
 
 ### Login user
 POST http://localhost:4000/api/auth/login
@@ -26,4 +11,22 @@ Content-Type: application/json
 
 ### Get current user profile
 GET http://localhost:4000/api/profile/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGZlMGI5YmEyYWFhYTJlMTU3YTM2NCIsImlhdCI6MTc1OTkzNTkzNCwiZXhwIjoxNzYwMDIyMzM0fQ.k588OkE1O79C8Wmic7D6w2Z_Xrg-cBS0KB9umD5Oaro
+Authorization: Bearer {{token}}
+
+### Create a new product
+POST http://localhost:4000/api/products
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Producto de prueba",
+    "description": "Este es un producto de prueba",
+    "price": 100,
+    "stock": 50
+}
+### delete a product
+DELETE http://localhost:4000/api/products/68f8f5bc6cd8812df0751b5f
+Authorization: Bearer {{token}}
+
+### get all products
+GET http://localhost:4000/api/products

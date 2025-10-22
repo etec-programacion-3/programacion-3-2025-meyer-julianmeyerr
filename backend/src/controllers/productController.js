@@ -3,7 +3,14 @@ import asyncHandler from "express-async-handler";
 
 // Create Product
 export const createProduct = asyncHandler(async (req, res) => {
-  const product = new Product(req.body);
+  const { name, description, price, stock } = req.body;
+  const product = new Product({
+    name,
+    description,
+    price,
+    stock,
+    sellerId: req.user._id,
+  });
   await product.save();
   res.status(201).json(product);
 });
@@ -26,20 +33,39 @@ export const getProductId = asyncHandler(async (req, res) => {
 
 // Update product
 export const updateProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  const product = await Product.findById(req.params.id);
   if (!product) {
     res.status(404);
     throw new Error('Producto no encontrado');
   }
-  res.json(product);
+  if (product.sellerId.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error('No autorizado para actualizar este producto');
+  }
+  await product.updateOne(req.body);
+  const updatedproduct = await Product.findById(req.params.id);
+  res.json(updatedproduct);
 });
+
 
 // Delete product
 export const deleteProduct = asyncHandler(async (req, res) => {
-  const product = await Product.findByIdAndDelete(req.params.id);
+  const product = await Product.findById(req.params.id);
   if (!product) {
     res.status(404);
     throw new Error('Producto no encontrado');
   }
+  if (product.sellerId.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error('No autorizado para eliminar este producto');
+  }
+  await product.deleteOne();
   res.json({ message: 'Producto eliminado' });
+});
+// Get my products
+
+// Get my products
+export const myProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({ sellerId: req.user._id });
+  res.json(products);
 });
