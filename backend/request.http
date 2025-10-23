@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2ZmFkNTk2ZWFkZjhiMmZiMjNkNCIsImlhdCI6MTc2MTI0MzA5MCwiZXhwIjoxNzYxMzI5NDkwfQ.w650R7cjSrjab3mJKHMSkMUJQjM_dtJy_xuaZWe9tK0
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2ZmFkNTk2ZWFkZjhiMmZiMjNkNCIsImlhdCI6MTc2MTI0Njk2OSwiZXhwIjoxNzYxMzMzMzY5fQ.9hGieHY_RZPV2a1NqMWqcSdlHnratSc4hGVmeHXaoJ0
 
 ### get all users
 GET http://localhost:4000/api/users
@@ -42,11 +42,40 @@ DELETE http://localhost:4000/api/products/68f8f16eb10d3877e7609e59
 Authorization: Bearer {{token}}
 
 ### get all products
-GET http://localhost:4000/api/products?search=1
+GET http://localhost:4000/api/products
 
 ### get product by id
 GET http://localhost:4000/api/products/68fa6efe596eadf8b2fb23c1
 
 ### get my products
-GET http://localhost:4000/api/products/my-products
+GET http://localhost:4000/api/products/mine
 Authorization: Bearer {{token}}
+
+### create conversation
+POST http://localhost:4000/api/conversations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "productId": "68fa6efe596eadf8b2fb23c1"
+}
+
+### get my conversations
+GET http://localhost:4000/api/conversations/mine
+Authorization: Bearer {{token}}
+
+### get conversations
+GET http://localhost:4000/api/conversations
+
+### create message
+POST http://localhost:4000/api/messages
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "conversationId": "68fa80836a1f481a5e8d50dc",
+    "content": "Hola, estoy interesado en el producto."
+}
+
+### get all messages
+GET http://localhost:4000/api/messages
