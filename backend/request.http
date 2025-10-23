@@ -1,11 +1,24 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZGZlMGI5YmEyYWFhYTJlMTU3YTM2NCIsImlhdCI6MTc2MTE0NjI4NCwiZXhwIjoxNzYxMjMyNjg0fQ.DJLuFshP8YcDuoiSqIqQ-Q0g106-BUAYXt_nmixMgdg
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2ZmFkNTk2ZWFkZjhiMmZiMjNkNCIsImlhdCI6MTc2MTI0MzA5MCwiZXhwIjoxNzYxMzI5NDkwfQ.w650R7cjSrjab3mJKHMSkMUJQjM_dtJy_xuaZWe9tK0
+
+### get all users
+GET http://localhost:4000/api/users
+
+### Register user
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Bonaventura",
+    "email": "bona@ejemplo.com",
+    "password": "123456"
+}
 
 ### Login user
 POST http://localhost:4000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "meyer@ejemplo.com",
+    "email": "bona@ejemplo.com",
     "password": "123456"
 }
 
@@ -19,14 +32,21 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "name": "Producto de prueba",
-    "description": "Este es un producto de prueba",
+    "name": "Producto 12",
+    "description": "Este es un producto de prueba nuevo",
     "price": 100,
     "stock": 50
 }
 ### delete a product
-DELETE http://localhost:4000/api/products/68f8f5bc6cd8812df0751b5f
+DELETE http://localhost:4000/api/products/68f8f16eb10d3877e7609e59
 Authorization: Bearer {{token}}
 
 ### get all products
-GET http://localhost:4000/api/products
+GET http://localhost:4000/api/products?search=1
+
+### get product by id
+GET http://localhost:4000/api/products/68fa6efe596eadf8b2fb23c1
+
+### get my products
+GET http://localhost:4000/api/products/my-products
+Authorization: Bearer {{token}}
