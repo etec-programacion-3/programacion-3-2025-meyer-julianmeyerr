@@ -27,24 +27,6 @@ export const createMessage = asyncHandler(async (req, res) => {
   await message.save();
   res.status(201).json(message);
 });
-// Get Message by Conversation ID
-export const getMessagesByConversationId = asyncHandler(async (req, res) => {
-  const conversationId = req.params.conversationId;
-  const conversation = await Conversation.findById(conversationId);
-  
-  if (!conversation) {
-    res.status(404);
-    throw new Error('Conversación no encontrada');
-  }
-
-  if (!conversation.members.includes(req.user._id)) {
-    res.status(403);
-    throw new Error("No autorizado para ver mensajes en esta conversación");
-  }
-
-  const messages = await Message.find({ conversationId: conversationId });
-  res.json(messages);
-});
 
 // Get Message
 export const getMessage = asyncHandler(async (req, res) => {

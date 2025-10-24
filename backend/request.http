@@ -74,12 +74,12 @@ Authorization: Bearer {{token}}
 
 {
     "conversationId": "68fb8e2ad42295423927663b",
-    "content": "Hola, otro conversacion."
+    "content": "Hola, sigo la conversacion."
 }
 
 ### get all messages
 GET http://localhost:4000/api/messages
 
 ### get messages by conversation id
-GET http://localhost:4000/api/messages/68fb8e2ad42295423927663b
+GET http://localhost:4000/api/conversations/68fb8e2ad42295423927663b
 Authorization: Bearer {{token}}
