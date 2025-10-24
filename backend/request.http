@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2ZmFkNTk2ZWFkZjhiMmZiMjNkNCIsImlhdCI6MTc2MTI0Njk2OSwiZXhwIjoxNzYxMzMzMzY5fQ.9hGieHY_RZPV2a1NqMWqcSdlHnratSc4hGVmeHXaoJ0
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2ZmFkNTk2ZWFkZjhiMmZiMjNkNCIsImlhdCI6MTc2MTMxNTc2MSwiZXhwIjoxNzYxNDAyMTYxfQ.bzKtbgkFvonpX3kiC-G2drzso3dOBcVxlIJH5T_08Z8
 
 ### get all users
 GET http://localhost:4000/api/users
@@ -57,7 +57,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "productId": "68fa6efe596eadf8b2fb23c1"
+    "productId": "68fa6f03596eadf8b2fb23c4"
 }
 
 ### get my conversations
@@ -73,9 +73,13 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "conversationId": "68fa80836a1f481a5e8d50dc",
-    "content": "Hola, estoy interesado en el producto."
+    "conversationId": "68fb8e2ad42295423927663b",
+    "content": "Hola, otro conversacion."
 }
 
 ### get all messages
 GET http://localhost:4000/api/messages
+
+### get messages by conversation id
+GET http://localhost:4000/api/messages/68fb8e2ad42295423927663b
+Authorization: Bearer {{token}}
