@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
+import cors from 'cors';
 
 import routes from './routes/index.js';
 
@@ -9,6 +10,7 @@ connectDB();
 
 dotenv.config();
 
+app.use(cors());
 app.use(express.json());
 
 routes.forEach(r => {app.use(r.path, r.router)});
