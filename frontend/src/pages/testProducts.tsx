@@ -8,7 +8,7 @@ interface ProductType {
   description: string;
   price: number;
   stock: number;
-  sellerId: string;
+  sellerId: {_id : string ; name : string};
   createdAt: string;
 }
 
@@ -53,7 +53,7 @@ const TestProducts: React.FC = () => {
             <p>{p.description}</p>
             <p>Precio: ${p.price}</p>
             <p>Stock: {p.stock}</p>
-            <small>Publicado por: {p.sellerId}</small>
+            <small>Publicado por: {p.sellerId.name}</small>
           </div>
         ))}
       </div>

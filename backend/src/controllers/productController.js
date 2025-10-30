@@ -31,7 +31,11 @@ export const getProduct = asyncHandler(async (req, res) => {
     : {};
   
   const totalItems = await Product.countDocuments(search);
-  const product = await Product.find(search).skip(skip).limit(limit);
+  const product = await Product.find(search).skip(skip).limit(limit)
+  .populate({
+    path: 'sellerId',
+    select: 'name'
+  });
   res.json({
     page,
     limit,
