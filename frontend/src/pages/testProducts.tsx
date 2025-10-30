@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 // Define el tipo de producto según tu backend
 interface ProductType {
@@ -53,7 +54,7 @@ const TestProducts: React.FC = () => {
             <p>{p.description}</p>
             <p>Precio: ${p.price}</p>
             <p>Stock: {p.stock}</p>
-            <small>Publicado por: {p.sellerId.name}</small>
+            <small>Publicado por: <Link to={`/user/${p.sellerId._id}`}>{p.sellerId.name}</Link></small>
           </div>
         ))}
       </div>

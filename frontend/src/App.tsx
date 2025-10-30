@@ -1,5 +1,6 @@
 import { Routes, Route, Link } from "react-router-dom";
 import TestProducts from "./pages/testProducts";
+import UserId from "./pages/userId";
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
 
       <Routes>
         <Route path="/products" element={<TestProducts />} />
+        <Route path="/user/:id" element={<UserId/>} />
+        <Route path="*" element={<p>404 — Página no encontrada</p>} />
       </Routes>
     </div>
   );

@@ -4,6 +4,9 @@
 ### get all users
 GET http://localhost:4000/api/users
 
+###get one user
+GET http://localhost:4000/api/users/68fa6fad596eadf8b2fb23d4
+
 ### Register user
 POST http://localhost:4000/api/auth/register
 Content-Type: application/json
