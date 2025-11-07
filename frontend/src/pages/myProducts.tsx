@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import api from "../api/axiosInstance";
 
 // Define el tipo de producto según tu backend
 interface ProductType {
@@ -9,25 +8,21 @@ interface ProductType {
   description: string;
   price: number;
   stock: number;
-  sellerId: {_id : string ; name : string};
+  sellerId:string;
   createdAt: string;
 }
 
-const TestProducts: React.FC = () => {
+const MyProducts: React.FC = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
-  const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const fetchProducts = async (pageNumber: number = 1) => {
+  const fetchProducts = async () => {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get(`http://localhost:4000/api/products?page=${pageNumber}`);
-      setProducts(res.data.product);       // El array de productos
-      setPage(res.data.page);              // Página actual
-      setTotalPages(res.data.totalPages);  // Total de páginas
+      const res = await api.get(`http://localhost:4000/api/products/mine`);
+      setProducts(res.data.product);
     } catch (err) {
       console.error(err);
       setError("No se pudieron cargar los productos");
@@ -54,22 +49,11 @@ const TestProducts: React.FC = () => {
             <p>{p.description}</p>
             <p>Precio: ${p.price}</p>
             <p>Stock: {p.stock}</p>
-            <small>Publicado por: <Link to={`/user/${p.sellerId._id}`}>{p.sellerId.name}</Link></small>
           </div>
         ))}
-      </div>
-
-      <div style={{ marginTop: "20px" }}>
-        <button disabled={page <= 1} onClick={() => fetchProducts(page - 1)} style={{ marginRight: "10px" }}>
-          Anterior
-        </button>
-        <span>Página {page} de {totalPages}</span>
-        <button disabled={page >= totalPages} onClick={() => fetchProducts(page + 1)} style={{ marginLeft: "10px" }}>
-          Siguiente
-        </button>
       </div>
     </div>
   );
 };
 
-export default TestProducts;
+export default MyProducts;
