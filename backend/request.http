@@ -1,19 +1,22 @@
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4ZmE2ZmFkNTk2ZWFkZjhiMmZiMjNkNCIsImlhdCI6MTc2MjUyOTQ2OCwiZXhwIjoxNzYyNjE1ODY4fQ.c8xeq1LMll0t91-Jt6t9bTXE2y7Lc3axNFWiZ9bmQ00
+@token = yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTBhZDQxNTgyMTdjMzlmNDIzNTAzMSIsImlhdCI6MTc2MzA1NzM3OCwiZXhwIjoxNzYzMTQzNzc4fQ.eU1vA9O0FWsZw4X1OvE6stQ0AzK-XWUkBr8RhR8eEXA
 
 ### get all users
 GET http://localhost:4000/api/users
 
-###get one user
-GET http://localhost:4000/api/users/68fa6fad596eadf8b2fb23d4
+### get user by id
+GET http://localhost:4000/api/users/6910ad4158217c39f4235031
+
+###delete user
+DELETE http://localhost:4000/api/users/69160be92834bc95db12129c
 
 ### Register user
 POST http://localhost:4000/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Bonaventura",
-    "email": "bona@ejemplo.com",
+    "name": "maruca",
+    "email": "maruca@ejemplo.com",
     "password": "123456"
 }
 
@@ -36,8 +39,8 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "name": "Producto 12",
-    "description": "Este es un producto de prueba nuevo",
+    "name": "perfume",
+    "description": "Este es un producto de prueba viejo",
     "price": 100,
     "stock": 50
 }
@@ -49,7 +52,7 @@ Authorization: Bearer {{token}}
 GET http://localhost:4000/api/products
 
 ### get product by id
-GET http://localhost:4000/api/products/68fa6efe596eadf8b2fb23c1
+GET http://localhost:4000/api/products/6910adb058217c39f4235038
 
 ### get my products
 GET http://localhost:4000/api/products/mine
@@ -61,7 +64,7 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "productId": "68fa6f03596eadf8b2fb23c4"
+    "productId": "6910ada958217c39f4235035"
 }
 
 ### get my conversations
@@ -77,13 +80,18 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-    "conversationId": "68fb8e2ad42295423927663b",
-    "content": "Hola, sigo la conversacion."
-}
+    "conversationId": "69149448820e711e790aea03",
+    "content": "Estoy interesado"
+}   
 
 ### get all messages
 GET http://localhost:4000/api/messages
-
+6910ad4158217c39f4235031
 ### get messages by conversation id
-GET http://localhost:4000/api/conversations/68fb8e2ad42295423927663b
+GET http://localhost:4000/api/conversations/69161ea19b551dd5ff95d8e6
 Authorization: Bearer {{token}}
+
+###get product by seller id
+
+GET http://localhost:4000/api/products/seller/
+

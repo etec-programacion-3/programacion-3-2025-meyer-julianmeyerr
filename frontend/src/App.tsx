@@ -1,9 +1,15 @@
-import { Routes, Route, Link , useNavigate} from "react-router-dom";
+import { Routes, Route , useNavigate} from "react-router-dom";
 import { useState, useEffect } from "react";
-import TestProducts from "./pages/products";
+import Products from "./pages/products";
 import UserId from "./pages/userId";
 import LoginPage from "./pages/login";
 import MyProducts from "./pages/myProducts";
+import MyConversations from "./pages/myconversations";
+import ChatPage from "./pages/chat";
+import ProductDetail from "./pages/productId";
+import NewProduct from "./pages/newProduct";
+import RegisterPage from "./pages/register";
+import EditProduct from "./pages/editProduct";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,32 +22,45 @@ function App() {
   }, []);
 
   // Cerrar sesión
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const confirmLogout = window.confirm("¿Seguro que deseas salir?");
+    if (!confirmLogout) return;
+
     localStorage.removeItem("token");
+    localStorage.removeItem("userId ");
+    localStorage.removeItem("userName");
     setIsLoggedIn(false);
     navigate("/login");
   };
 
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>Panel de pruebas</h1>
+      <h1>E-Commerce</h1>
 
-      <nav style={{ marginBottom: "1rem" }}>
-        <Link to="/products" style={{ marginRight: "1rem" }}>Productos</Link>
-        <Link to="/products/mine">Mis Productos</Link>
+      <nav style={{ marginBottom: "2rem"}}>
+        <button onClick={()=> navigate("/products")}>Productos</button>
+        <button onClick={()=> navigate("/products/mine")}>Mis Productos</button>
+        <button onClick={()=> navigate("/conversations")}>Conversaciones</button>
 
         {isLoggedIn ? (
           <button onClick={handleLogout}>Cerrar sesión</button>
         ) : (
-          <Link to="/login">Iniciar sesión</Link>
+          <button onClick={()=> navigate("/login")}>Acceder</button>
         )}
       </nav>
 
       <Routes>
-        <Route path="/" element={<TestProducts />} />
-        <Route path="/products" element={<TestProducts />} />
-        <Route path="/user/:id" element={<UserId/>} />
+        <Route path="/" element={<Products />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/user/:sellerId" element={<UserId/>} />
         <Route path="/products/mine" element={<MyProducts/>}/>
+        <Route path="/products/new" element={<NewProduct/>}/>
+        <Route path="/products/edit/:id" element={<EditProduct />} />
+        <Route path="/products/:id" element={<ProductDetail/>}/>
+        <Route path="/conversations" element={<MyConversations />} />
+        <Route path="/conversations/:id" element={<ChatPage />} />
+        <Route path="/register" element={<RegisterPage onRegisterSuccess={() => setIsLoggedIn(true)} />} />
+
         <Route
           path="/login"
           element={<LoginPage onLoginSuccess={() => setIsLoggedIn(true)} />}

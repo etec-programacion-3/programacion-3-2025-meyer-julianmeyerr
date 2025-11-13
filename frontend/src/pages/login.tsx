@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "../api/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , Link} from "react-router-dom";
 
 
 interface LoginPageProps {
@@ -22,12 +22,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
     try {
   const response = await axios.post("/auth/login", { email, password });
   const token = response.data.token;
+  const _id = response.data._id;
+  const name = response.data.name
 
   // ✅ Guardar el token localmente
   localStorage.setItem("token", token);
+  localStorage.setItem("userId", _id);
+  localStorage.setItem("userName", name)
 
   setToken(token);
   console.log("Token recibido:", token);
+  console.log("Id recibido: ", _id)
   onLoginSuccess();
   navigate("/")
 } catch (err: any) {
@@ -41,7 +46,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       <form onSubmit={handleSubmit}>
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Correo electrónico"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -58,7 +63,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         <button type="submit" style={{ width: "100%" }}>
           Entrar
         </button>
+        
       </form>
+      <p style={{textAlign: "center"}}>¿No tienes cuenta? <Link to={`/register`}>Registrate</Link></p>
 
       {token && (
         <div style={{ marginTop: "10px", color: "green" }}>

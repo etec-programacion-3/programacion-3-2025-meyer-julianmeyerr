@@ -47,7 +47,7 @@ const TestProducts: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+    <div>
       <h1>Productos</h1>
       
       <div style={{ marginBottom: "1rem" }}>
@@ -69,10 +69,9 @@ const TestProducts: React.FC = () => {
       <div>
         {products.map((p) => (
           <div key={p._id} style={{ border: "1px solid #ccc", margin: "10px 0", padding: "10px" }}>
-            <h3>{p.name}</h3>
+            <h3><Link to={`/products/${p._id}`}>{p.name}</Link></h3>
             <p>{p.description}</p>
             <p>Precio: ${p.price}</p>
-            <p>Stock: {p.stock}</p>
             <small>Publicado por: <Link to={`/user/${p.sellerId._id}`}>{p.sellerId.name}</Link></small>
           </div>
         ))}

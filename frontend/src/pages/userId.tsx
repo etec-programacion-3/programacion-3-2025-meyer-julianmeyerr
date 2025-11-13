@@ -1,45 +1,75 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import api from "../api/axiosInstance";
 
-interface User {
+interface Seller {
   _id: string;
   name: string;
-  email: string;
 }
 
-function UserDetail() {
-  const { id } = useParams<{ id: string }>(); // obtiene el id de la URL
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
+interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  createdAt: string;
+}
 
-  const fetchUser = async () => {
-    try {
-      setLoading(true);
-      const res = await api.get(`/users/${id}`);
-      setUser(res.data.user || res.data);
-    } catch (err) {
-      console.error("Error fetching user:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+function UserId() {
+  const { sellerId } = useParams<{ sellerId: string }>();
+  const [seller, setSeller] = useState<Seller | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    if (id) fetchUser();
-  }, [id]);
+    const fetchSellerData = async () => {
+      try {
+        const res = await api.get(`/products/seller/${sellerId}`);
 
-  if (loading) return <p>Cargando...</p>;
-  if (!user) return <p>No se encontró el usuario.</p>;
+        // Tomamos el primer elemento del array seller
+        const sellerData = Array.isArray(res.data.seller)
+          ? res.data.seller[0]
+          : res.data.seller;
+
+        setSeller(sellerData);
+        setProducts(res.data.products);
+      } catch (err) {
+        console.error("❌ Error al obtener vendedor:", err);
+        setError("Error al obtener la información del vendedor");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (sellerId) fetchSellerData();
+  }, [sellerId]);
+
+  if (loading) return <p>Cargando información del vendedor...</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (!seller) return <p>No se encontró el vendedor.</p>;
 
   return (
-    <div>
-      <h2>Detalle del Usuario</h2>
-      <p><strong>ID:</strong> {user._id}</p>
-      <p><strong>Nombre:</strong> {user.name}</p>
-      <p><strong>Email:</strong> {user.email}</p>
+    <div className="page-wrapper">
+      <h1>Perfil de {seller.name}</h1>
+
+      <h3>Productos publicados:</h3>
+      {products.length > 0 ? (
+        <div>
+                {products.map((p) => (
+                  <div key={p._id} style={{ border: "1px solid #ccc", margin: "10px 0", padding: "10px" }}>
+                    <h3><Link to={`/products/${p._id}`}>{p.name}</Link></h3>
+                    <p>{p.description}</p>
+                    <p>Precio: ${p.price}</p>
+                  </div>
+                ))}
+              </div>
+      ) : (
+        <p>Este vendedor aún no tiene productos publicados.</p>
+      )}
     </div>
   );
 }
 
-export default UserDetail;
+export default UserId;
