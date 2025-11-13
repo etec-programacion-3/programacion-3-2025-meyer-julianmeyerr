@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 // Define el tipo de producto según tu backend
 interface ProductType {
@@ -18,12 +19,13 @@ const TestProducts: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [search, setSearch] = useState("");
 
   const fetchProducts = async (pageNumber: number = 1) => {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get(`http://localhost:4000/api/products?page=${pageNumber}`);
+      const res = await axios.get(`http://localhost:4000/api/products?page=${pageNumber}&search=${encodeURIComponent(search)}`);
       setProducts(res.data.product);       // El array de productos
       setPage(res.data.page);              // Página actual
       setTotalPages(res.data.totalPages);  // Total de páginas
@@ -39,9 +41,27 @@ const TestProducts: React.FC = () => {
     fetchProducts();
   }, []);
 
+  const handleSearch = () => {
+    setPage(1);
+    fetchProducts();
+  };
+
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+    <div>
       <h1>Productos</h1>
+      
+      <div style={{ marginBottom: "1rem" }}>
+        <input
+          type="text"
+          placeholder="Buscar productos..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{ padding: "0.5rem", marginRight: "0.5rem" }}
+        />
+        <button onClick={handleSearch} disabled={loading}>
+          Buscar
+        </button>
+      </div>
 
       {loading && <p>Cargando productos...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -49,11 +69,10 @@ const TestProducts: React.FC = () => {
       <div>
         {products.map((p) => (
           <div key={p._id} style={{ border: "1px solid #ccc", margin: "10px 0", padding: "10px" }}>
-            <h3>{p.name}</h3>
+            <h3><Link to={`/products/${p._id}`}>{p.name}</Link></h3>
             <p>{p.description}</p>
             <p>Precio: ${p.price}</p>
-            <p>Stock: {p.stock}</p>
-            <small>Publicado por: {p.sellerId.name}</small>
+            <small>Publicado por: <Link to={`/user/${p.sellerId._id}`}>{p.sellerId.name}</Link></small>
           </div>
         ))}
       </div>

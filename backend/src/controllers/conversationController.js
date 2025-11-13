@@ -41,22 +41,38 @@ export const getConversationId = asyncHandler(async (req, res) => {
   const conversation = await Conversation.findById(req.params.id);
   if (!conversation) {
     res.status(404);
-    throw new Error('Conversacion no encontrado');
+    throw new Error("Conversación no encontrada");
   }
+
   if (!conversation.members.includes(req.user._id)) {
     res.status(403);
     throw new Error("No autorizado para ver mensajes en esta conversación");
   }
-   const conversation2 = await Conversation.findById(req.params.id).populate("members", "name");
+
+  const conversationData = await Conversation.findById(req.params.id)
+    .populate("members", "name")
+    .populate("productId", "name");
+
   const page = Number(req.query.page) || 1;
-  const limit = 10;
+  const limit = 15;
   const skip = (page - 1) * limit;
 
-  const messages = (await Message.find(conversation.conversationId).sort({ createdAt: -1 })
-  .skip(skip).limit(limit).select('-conversationId -_id')).reverse();
+  // ✅ Traer mensajes con nombre del remitente
+  const messages = await Message.find({ conversationId: conversation._id })
+    .populate("senderId", "name")
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .select("-__v")
+    .lean()
+    .exec();
 
-  res.json({conversation2, messages});
+  messages.reverse();
+
+  res.json({ conversation: conversationData, messages });
 });
+
+
 
 // Update conversation
 export const updateConversation = asyncHandler(async (req, res) => {
@@ -85,7 +101,7 @@ export const myConversations = asyncHandler(async (req, res) => {
   const skip = (page - 1) * limit;
 
   const totalItems = await Conversation.countDocuments({ members: req.user._id });
-  const conversations = await Conversation.find({ members: req.user._id }).skip(skip).limit(limit);
+  const conversations = await Conversation.find({ members: req.user._id }).skip(skip).limit(limit).populate("members", "name").populate("productId","name");
 
   const conversationsWithLastMessage = await Promise.all(
     conversations.map(async (conv) => {

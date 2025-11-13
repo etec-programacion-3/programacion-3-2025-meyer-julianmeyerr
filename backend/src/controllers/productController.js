@@ -1,6 +1,7 @@
 import Product from "../models/Product.js";
 import User from "../models/User.js";
 import asyncHandler from "express-async-handler";
+import Conversation from "../models/Conversation.js"; // <-- importar el modelo
 
 // Create Product
 export const createProduct = asyncHandler(async (req, res) => {
@@ -31,7 +32,7 @@ export const getProduct = asyncHandler(async (req, res) => {
     : {};
   
   const totalItems = await Product.countDocuments(search);
-  const product = await Product.find(search).skip(skip).limit(limit)
+  const product = await Product.find(search).skip(skip).limit(limit).sort({ createdAt: -1 })
   .populate({
     path: 'sellerId',
     select: 'name'
@@ -47,13 +48,12 @@ export const getProduct = asyncHandler(async (req, res) => {
 
 // Get product by ID
 export const getProductId = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id);
-  const seller = await User.findById(product.sellerId).select('name');
+  const product = await Product.findById(req.params.id).populate("sellerId", "name");
   if (!product) {
     res.status(404);
     throw new Error('Producto no encontrado');
   }
-  res.json({product, seller});
+  res.json(product);
 });
 
 // Update product
@@ -73,23 +73,49 @@ export const updateProduct = asyncHandler(async (req, res) => {
 });
 
 
-// Delete product
 export const deleteProduct = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
+  
   if (!product) {
     res.status(404);
-    throw new Error('Producto no encontrado');
+    throw new Error("Producto no encontrado");
   }
+
+  // Verificar si el usuario autenticado es el dueño
   if (product.sellerId.toString() !== req.user._id.toString()) {
     res.status(403);
-    throw new Error('No autorizado para eliminar este producto');
+    throw new Error("No autorizado para eliminar este producto");
   }
+
+  // 🔹 Eliminar las conversaciones asociadas a este producto
+  await Conversation.deleteMany({ productId: product._id });
+
+  // 🔹 Eliminar el producto
   await product.deleteOne();
-  res.json({ message: 'Producto eliminado' });
+
+  res.json({ message: "Producto y conversaciones asociadas eliminados correctamente" });
 });
 
 // Get my products
 export const myProducts = asyncHandler(async (req, res) => {
   const products = await Product.find({ sellerId: req.user._id });
   res.json(products);
+});
+
+
+// Get products by seller
+export const getProductsBySeller = asyncHandler(async (req, res) => {
+  const sellerId = req.params.sellerId;
+  const _id = req.params.sellerId;
+
+  // Verifica que el ID sea válido
+  if (!sellerId) {
+    res.status(400);
+    throw new Error("Se requiere un ID de vendedor");
+  }
+
+  const products = await Product.find({ sellerId }).sort({ createdAt: -1 });
+  const seller = await User.find({_id}).select("name")
+
+  res.json({seller, products});
 });
