@@ -279,6 +279,12 @@ Para ejecutar las peticiones, puedes usar:
 
 ## Solución de Problemas
 
+### Problemas con Docker
+```bash
+# Probar dandole permisos de administrador para iniciarse (Aplica a otros comandos de Docker utilizando sudo)
+sudo docker-compose up -d
+```
+
 ### MongoDB no se conecta
 ```bash
 # Verificar que el contenedor está corriendo
