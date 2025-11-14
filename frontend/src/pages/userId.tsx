@@ -56,12 +56,12 @@ function UserId() {
 
       <h3>Productos publicados:</h3>
       {products.length > 0 ? (
-        <div>
+        <div className="products-grid">
                 {products.map((p) => (
-                  <div key={p._id} style={{ border: "1px solid #ccc", margin: "10px 0", padding: "10px" }}>
+                  <div key={p._id} className="product-card">
                     <h3><Link to={`/products/${p._id}`}>{p.name}</Link></h3>
                     <p>{p.description}</p>
-                    <p>Precio: ${p.price}</p>
+                    <p className="product-price" >${p.price.toFixed(2)}</p>
                   </div>
                 ))}
               </div>

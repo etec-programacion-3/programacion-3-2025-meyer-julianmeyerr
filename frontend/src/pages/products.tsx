@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-// Define el tipo de producto según tu backend
 interface ProductType {
   _id: string;
   name: string;
   description: string;
   price: number;
   stock: number;
-  sellerId: {_id : string ; name : string};
+  sellerId: { _id: string; name: string };
   createdAt: string;
 }
 
-const TestProducts: React.FC = () => {
+const Products: React.FC = () => {
   const [products, setProducts] = useState<ProductType[]>([]);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -25,10 +24,12 @@ const TestProducts: React.FC = () => {
     try {
       setLoading(true);
       setError("");
-      const res = await axios.get(`http://localhost:4000/api/products?page=${pageNumber}&search=${encodeURIComponent(search)}`);
-      setProducts(res.data.product);       // El array de productos
-      setPage(res.data.page);              // Página actual
-      setTotalPages(res.data.totalPages);  // Total de páginas
+      const res = await axios.get(
+        `http://localhost:4000/api/products?page=${pageNumber}&search=${encodeURIComponent(search)}`
+      );
+      setProducts(res.data.product);
+      setPage(res.data.page);
+      setTotalPages(res.data.totalPages);
     } catch (err) {
       console.error(err);
       setError("No se pudieron cargar los productos");
@@ -47,47 +48,59 @@ const TestProducts: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Productos</h1>
-      
-      <div style={{ marginBottom: "1rem" }}>
+    <div className="page-wrapper">
+      <h1>🛍️ Catálogo de Productos</h1>
+
+      <div className="search-container">
         <input
           type="text"
           placeholder="Buscar productos..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          style={{ padding: "0.5rem", marginRight: "0.5rem" }}
+          onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
         />
         <button onClick={handleSearch} disabled={loading}>
-          Buscar
+          🔍 Buscar
         </button>
       </div>
 
-      {loading && <p>Cargando productos...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading && <div className="loading">⏳ Cargando productos...</div>}
+      {error && <div className="error-alert">{error}</div>}
 
-      <div>
+      <div className="products-grid">
         {products.map((p) => (
-          <div key={p._id} style={{ border: "1px solid #ccc", margin: "10px 0", padding: "10px" }}>
-            <h3><Link to={`/products/${p._id}`}>{p.name}</Link></h3>
+          <div key={p._id} className="product-card">
+            <h3>
+              <Link to={`/products/${p._id}`}>{p.name}</Link>
+            </h3>
             <p>{p.description}</p>
-            <p>Precio: ${p.price}</p>
-            <small>Publicado por: <Link to={`/user/${p.sellerId._id}`}>{p.sellerId.name}</Link></small>
+            <p className="product-price">${p.price.toFixed(2)}</p>
+            <small className="product-seller">
+              Publicado por: <Link to={`/user/${p.sellerId._id}`}>{p.sellerId.name}</Link>
+            </small>
           </div>
         ))}
       </div>
 
-      <div style={{ marginTop: "20px" }}>
-        <button disabled={page <= 1} onClick={() => fetchProducts(page - 1)} style={{ marginRight: "10px" }}>
-          Anterior
+      {products.length === 0 && !loading && (
+        <div className="text-center mt-3">
+          <p>No se encontraron productos</p>
+        </div>
+      )}
+
+      <div className="pagination">
+        <button disabled={page <= 1} onClick={() => fetchProducts(page - 1)}>
+          ← Anterior
         </button>
-        <span>Página {page} de {totalPages}</span>
-        <button disabled={page >= totalPages} onClick={() => fetchProducts(page + 1)} style={{ marginLeft: "10px" }}>
-          Siguiente
+        <span>
+          Página {page} de {totalPages}
+        </span>
+        <button disabled={page >= totalPages} onClick={() => fetchProducts(page + 1)}>
+          Siguiente →
         </button>
       </div>
     </div>
   );
 };
 
-export default TestProducts;
+export default Products;

@@ -46,12 +46,7 @@ function NewProduct() {
 
   return (
     <div
-      style={{
-        maxWidth: "500px",
-        margin: "auto",
-        padding: "20px",
-        fontFamily: "sans-serif",
-      }}
+      className="page-wrapper"
     >
       <h1>Publicar Producto</h1>
 

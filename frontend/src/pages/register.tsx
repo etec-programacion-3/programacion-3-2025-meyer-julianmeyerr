@@ -45,38 +45,46 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ onRegisterSuccess }) => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "20px" }}>
+    <div className="form-container">
       <h2>Registrarse</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          style={{ display: "block", width: "100%", marginBottom: "10px" }}
-        />
-        <input
-          type="email"
-          placeholder="Correo electrónico"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          style={{ display: "block", width: "100%", marginBottom: "10px" }}
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          style={{ display: "block", width: "100%", marginBottom: "10px" }}
-        />
+        <div className="form-group">
+          <label htmlFor="name">Nombre</label>
+          <input
+            type="text"
+            placeholder="Nombre"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Correo electrónico</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="tu@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Contraseña</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
         <button type="submit" style={{ width: "100%" }}>
           Crear cuenta
         </button>
       </form>
-      <p style={{textAlign: "center"}}>¿Ya tienes cuenta? <Link to={`/login`}>Inicia Sesión</Link></p>
+      <p className="text-center mt-2">¿Ya tienes cuenta? <Link to={`/login`}>Inicia Sesión</Link></p>
       {token && (
         <div style={{ marginTop: "10px", color: "green" }}>
           ✅ Registro exitoso
