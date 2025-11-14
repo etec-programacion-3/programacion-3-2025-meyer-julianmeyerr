@@ -52,25 +52,25 @@ const MyProducts: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="page-wrapper">
       <h1>Mis Productos</h1>
 
       {loading && <p>Cargando productos...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <div>
+      <div className="products-grid">
         <button onClick={() => navigate("/products/new")}>Publicar Producto</button>
         {products.map((p) => (
-          <div key={p._id} style={{ border: "1px solid #ccc", margin: "10px 0", padding: "10px" }}>
+          <div key={p._id} className="product-card">
             <h3>
               <Link to={`/products/${p._id}`}>{p.name}</Link>
             </h3>
             <p>{p.description}</p>
-            <p>Precio: ${p.price}</p>
+            <p className="product-price">${p.price.toFixed(2)}</p>
 
             {/* 🔹 Botón de eliminar agregado */}
             <button onClick={() => navigate(`/products/edit/${p._id}`)}>Editar</button>
-            <button onClick={() => handleDelete(p._id)}>Eliminar producto</button>
+            <button className="danger" onClick={() => handleDelete(p._id)}>Eliminar producto</button>
           </div>
         ))}
       </div>

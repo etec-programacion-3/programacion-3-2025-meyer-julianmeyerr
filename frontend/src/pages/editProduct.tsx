@@ -68,7 +68,7 @@ function EditProduct() {
   if (loadingProduct) return <p>Cargando información del producto...</p>;
 
   return (
-    <div><button onClick={() => navigate(`/products/mine`)}>Volver</button>
+    <div className="page-wrapper" >
     <div
       style={{
         maxWidth: "500px",
